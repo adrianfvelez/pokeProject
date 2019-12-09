@@ -24,13 +24,15 @@ def capturar_pokemon(s):
 	#ya no se sigue intentando la captura
 	if recibido[0] == ENVIO_POKEMON:
 		#mostrar la imagen aqui
-		print("AQUI ESTA TU PIKACHU")
+		name = str(nombres_pokemon[recibido[2]])
+		print("LO HAS ATRAPADO. AQUI ESTA TU "+ name)
 	elif recibido[0] == NO_MAS_INTENTOS:
 		print("El pokémon se ha escapado :(\n")
 
 s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 host = socket.gethostname()
 port = 9999
+nombres_pokemon = ['pikachu','raichu','squirtle','warturtle','pidgey','pidgeotto','charmander','charmeleon','bulbasaur','ivysaur']
 
 s.connect((host,port))
 s.settimeout(60)
@@ -72,12 +74,15 @@ while tipo_mensaje != TERMINANDO_SESION:
 			pass
 		elif msg_recibido[0] == CAPTURAR_POKEMON:
 			#decodificar qué pokemon apareció
-			captura = input("Un pikachu salvaje ha aparecido, ¿deseas capturarlo?"+
+			nombre_pokemon = str(nombres_pokemon[msg_recibido[2]])			
+			captura = input("Un "+ nombre_pokemon +" salvaje ha aparecido, ¿deseas capturarlo?"+
 				"\n1)Sí"+
 				"\n2)No\n")
 		else:
-			captura = input("Un pikachu salvaje ha aparecido pero parece que ya lo has capturado antes, "+
-				"¿deseas capturar a su evolución o escapar?"+
+			nombre_pokemon = str(nombres_pokemon[msg_recibido[2]-1])	
+			nombre_evolucion = str(nombres_pokemon[msg_recibido[2]])
+			captura = input("Un "+ nombre_pokemon +" salvaje ha aparecido pero parece que ya lo has capturado antes, "+
+				"¿deseas capturar a su evolución "+ nombre_evolucion +" o escapar?"+
 				"\n1)Capturar evolución"+
 				"\n2)Escapar\n")
 		if captura == "1":
@@ -92,9 +97,13 @@ while tipo_mensaje != TERMINANDO_SESION:
 		enviaMensaje(s,pack('B',CONSULTA_POKEMON))
 		respuesta = 0
 		msg_recibido = s.recv(4096)
+		print(msg_recibido[0])
 		if msg_recibido[0] == LISTA_POKEMON:
 			#imprimir la lista de pokemon
-			print("AQUI VA LA LISTA DE POKEMON\n")
+			pokemon_recibidos = msg_recibido[2:]
+			print("ESTOS SON TUS POKEMON\n")
+			for i in pokemon_recibidos:
+				print(nombres_pokemon[i]+"\n")
 	#si se quiere salir
 	else:
 		enviaMensaje(s,pack('B',SALIR))

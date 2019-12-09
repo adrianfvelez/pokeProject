@@ -58,7 +58,7 @@ def get_usuario_by_id(conn,id):
 
 def get_all_pokemones_from_usuario(conn,id):
     cursorObj = conn.cursor()
-    cursorObj.execute("SELECT id,name FROM atrapado INNER JOIN pokemon ON atrapado.id_pokemon=pokemon.id WHERE atrapado.id_usuario='"+str(id)+"'")
+    cursorObj.execute("SELECT id FROM atrapado INNER JOIN pokemon ON atrapado.id_pokemon=pokemon.id WHERE atrapado.id_usuario='"+str(id)+"'")
     rows = cursorObj.fetchall()
     return rows
 
@@ -108,10 +108,6 @@ def main():
         for i in range(len(nombres_pokemon)):
             pokemon = (i, nombres_pokemon[i])
             sql_crear_pokemon(conn, pokemon)
-
-        #REEGISTRO DE POKEMONES ATRAPADOS
-        sql_crear_atrapado(conn,(1,8))
-
 
         print("BASE TERMINADA")
 

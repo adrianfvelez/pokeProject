@@ -6,20 +6,33 @@ from struct import pack
 from socket import timeout
 from random import randint
 import _thread
+from create_db import *
 
 def enviaMensaje(conn,msg):
 	conn.sendall(msg)
 
 def conexionConCliente(conn):
 	try:
+		pokemones = [0,1,2,3,4,5,6,7,8,9]
+		nombres_pokemon = ['pikachu','raichu','squirtle','warturtle','pidgey','pidgeotto','charmander','charmeleon','bulbasaur','ivysaur']
+		pokemones_pre = [0,2,4,6,8]
+		nombres_pokemon_pre = ['pikachu','squirtle','pidgey','charmander','bulbasaur']
+		pokemones_ev = [1,3,5,7,9]
+		nombres_pokemon_ev = ['raichu','warturtle','pidgeotto','charmeleon','ivysaur']
+		connDB = create_connection(db_nombre)
+		if(connDB is None):
+			print("FATAL ERROR. NO BASE DE DATOS")
+			return
 		sesion_iniciada = False #bandera para saber si ya inició sesión
 		id_solicitado = conn.recv(2) # primer mensaje que recibe el servidor, con id de usuario
 		id_usuario = id_solicitado[1]
 		while sesion_iniciada == False:
 			#checar que el mensaje sea correcto y exista el usuario
-			if id_solicitado[0] == ENVIO_IP and id_usuario == 1:
+			if id_solicitado[0] == ENVIO_IP and (id_usuario in [0,1,2]):
 				sesion_iniciada = True
-				enviaMensaje(conn,pack('B',ID_ENCONTRADO))
+				pkg1 = pack('B',ID_ENCONTRADO)
+				pkg2 = pack('B',id_usuario)
+				enviaMensaje(conn,pkg1+pkg2)
 				break
 			#si no existía el ID, se envía mensaje de que no estaba
 			elif id_usuario != 1:
@@ -39,27 +52,51 @@ def conexionConCliente(conn):
 		repetido = False #bandera para saber si el usuario ya tiene el pokémon
 		inicio_captura = False #bandera para saber si se comenzará a capturar un pokémon
 		intentos_restantes = 0 #numero de intentos que quedan 
+		id_pokemon = 10
 		while msg_recibido[0] != SALIR:
 			#si se solicita una consulta de pokemon
 			if msg_recibido[0] == CONSULTA_POKEMON:
-				enviaMensaje(conn,pack('B',LISTA_POKEMON))
+				pkg1 = pack('B',LISTA_POKEMON)
+				pkg2 = pack('B',id_usuario)
+				all_poke_usuario = get_all_pokemones_from_usuario(connDB,id_usuario)
+				pkg_send = pkg1 + pkg2
+				for i in all_poke_usuario:
+					pkg_send = pkg_send + pack('B',i[0])
+				enviaMensaje(conn,pkg_send)
 				msg_recibido = conn.recv(2)
 			elif msg_recibido[0] == SOLICITA_CAPTURA:
-				#generar un pokemon aleatorio
+				#generar un pokemon aleatorio de acuerdo a los que no ha atrapado de preevoluciones
+				all_poke_usuario = get_all_pokemones_from_usuario(connDB,id_usuario)
+				already_have_this = []
+				for i in all_poke_usuario:
+					already_have_this.append(i[0])
+				disponibles = list(set(pokemones).symmetric_difference(set(already_have_this)))
 				#checar si ya tiene todos
-				todos= False
+				todos = len(already_have_this) == 10
 				if todos:
 					enviaMensaje(conn,pack('B',NO_MAS_CAPTURAS))
 					msg_recibido = conn.recv(2)
 					continue
+				ran_poke = randint(0,9)
+				while ran_poke % 2 == 1 or ((ran_poke+1) in already_have_this):
+					ran_poke = randint(0,9)
+				print(ran_poke)
+				id_pokemon = ran_poke
 				inicio_captura = True
-				#checar si el usuario lo tiene
+				repetido = ran_poke in already_have_this
 				if repetido:
-					enviaMensaje(conn,pack('B',POKEMON_REPETIDO))
+					id_pokemon = id_pokemon+1
+					pkg1 = pack('B',POKEMON_REPETIDO)
+					pkg2 = pack('B',id_usuario)
+					pkg3 = pack('B',id_pokemon)
+					enviaMensaje(conn,pkg1+pkg2+pkg3)
 					msg_recibido = conn.recv(1)
 					continue
 				#si no tiene todos ni esta repetido
-				enviaMensaje(conn,pack('B',CAPTURAR_POKEMON))
+				pkg1 = pack('B',CAPTURAR_POKEMON)
+				pkg2 = pack('B',id_usuario)
+				pkg3 = pack('B',id_pokemon)
+				enviaMensaje(conn,pkg1+pkg2+pkg3)
 				msg_recibido = conn.recv(1)
 				continue
 			elif msg_recibido[0] == SI:
@@ -68,8 +105,8 @@ def conexionConCliente(conn):
 					intentos_restantes = 5
 					inicio_captura = False
 					pkg1 = pack('B',INTENTAR_CAPTURA)
-					pkg2 = pack('B',1)
-					pkg3 = pack('B',1)
+					pkg2 = pack('B',id_usuario)
+					pkg3 = pack('B',id_pokemon)
 					pkg4 = pack('B',intentos_restantes)
 					enviaMensaje(conn,pkg1+pkg2+pkg3+pkg4)
 					msg_recibido = conn.recv(1)
@@ -85,15 +122,19 @@ def conexionConCliente(conn):
 				#si hubo exito en la captura
 				if exito_captura:
 					print("POKEMON CAPTURADO\n")
-					enviaMensaje(conn,pack('B',ENVIO_POKEMON))
+					sql_crear_atrapado(connDB,(id_usuario,id_pokemon))
+					pkg1 = pack('B',ENVIO_POKEMON)
+					pkg2 = pack('B',id_usuario)
+					pkg3 = pack('B',id_pokemon)
+					enviaMensaje(conn,pkg1+pkg2+pkg3)
 					msg_recibido = conn.recv(2)
 				#si no hay exito en la captura
 				else:
 					print("FALLÓ :(\n")
 					intentos_restantes = intentos_restantes-1
 					pkg1 = pack('B',INTENTAR_CAPTURA)
-					pkg2 = pack('B',1)
-					pkg3 = pack('B',1)
+					pkg2 = pack('B',id_usuario)
+					pkg3 = pack('B',id_pokemon)
 					pkg4 = pack('B',intentos_restantes)
 					enviaMensaje(conn,pkg1+pkg2+pkg3+pkg4)
 					msg_recibido = conn.recv(1)
