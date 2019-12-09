@@ -8,11 +8,10 @@ def enviaMensaje(conn,msg):
 	conn.sendall(msg)
 
 #función que mantiene la conexión cuando se esta intentando capturar un pokémon
-def capturar_pokemon(s,mensaje):
+def capturar_pokemon(s):
 	recibido = s.recv(4)
 	#mientras se siga intentando capturar
 	while recibido[0] == INTENTAR_CAPTURA:
-		print(recibido[3])
 		intentos = recibido[3]
 		intenta = input("Quedan "+str(intentos)+" intentos. ¿Quieres lanzar una pokébola?\n1)Si\n2)No\n")
 		if intenta == "1":
@@ -20,7 +19,7 @@ def capturar_pokemon(s,mensaje):
 			recibido = s.recv(4096)
 		else:
 			enviaMensaje(s,pack('B',NO))
-			s.recv(1)
+			a = s.recv(1)
 			break
 	#ya no se sigue intentando la captura
 	if recibido[0] == ENVIO_POKEMON:
@@ -34,6 +33,7 @@ host = socket.gethostname()
 port = 9999
 
 s.connect((host,port))
+s.settimeout(60)
 print("Conectado a POKEMON GO")
 
 #aquí comienza la conexión
@@ -59,7 +59,7 @@ while tipo_mensaje != TERMINANDO_SESION:
 			"¿qué desea realizar?"+
 			"\n1)Capturar pokémon"+
 			"\n2)Consultar mis pokémon"+
-			"\n3)Salir")
+			"\n3)Salir\n")
 	#si se quiere capturar un pokemon
 	if respuesta == "1":
 		enviaMensaje(s,pack('B',SOLICITA_CAPTURA))
@@ -82,7 +82,7 @@ while tipo_mensaje != TERMINANDO_SESION:
 				"\n2)Escapar\n")
 		if captura == "1":
 			enviaMensaje(s,pack('B',SI))
-			capturar_pokemon(s,msg_recibido)
+			capturar_pokemon(s)
 		else:
 			enviaMensaje(s,pack('B',NO))
 			msg_recibido = s.recv(1)

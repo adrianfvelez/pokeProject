@@ -5,6 +5,7 @@ from codigos_mensajes import *
 from struct import pack
 from socket import timeout
 from random import randint
+import _thread
 
 def enviaMensaje(conn,msg):
 	conn.sendall(msg)
@@ -50,17 +51,17 @@ def conexionConCliente(conn):
 				if todos:
 					enviaMensaje(conn,pack('B',NO_MAS_CAPTURAS))
 					msg_recibido = conn.recv(2)
-					pass
+					continue
 				inicio_captura = True
 				#checar si el usuario lo tiene
 				if repetido:
 					enviaMensaje(conn,pack('B',POKEMON_REPETIDO))
 					msg_recibido = conn.recv(1)
-					pass
+					continue
 				#si no tiene todos ni esta repetido
 				enviaMensaje(conn,pack('B',CAPTURAR_POKEMON))
 				msg_recibido = conn.recv(1)
-				pass
+				continue
 			elif msg_recibido[0] == SI:
 				#la primera ve que dice que sí se inicializan sus intentos
 				if inicio_captura:
@@ -72,20 +73,23 @@ def conexionConCliente(conn):
 					pkg4 = pack('B',intentos_restantes)
 					enviaMensaje(conn,pkg1+pkg2+pkg3+pkg4)
 					msg_recibido = conn.recv(1)
-					pass
+					continue
 				#si se acaban los intentos
 				if intentos_restantes == 0:
+					print("SE ACABARON LOS INTENTOS\n")
 					enviaMensaje(conn,pack('B',NO_MAS_INTENTOS))
 					msg_recibido = conn.recv(2)
-					pass
+					continue
 				#generar aletorio
 				exito_captura = randint(0,10) < 3
 				#si hubo exito en la captura
 				if exito_captura:
+					print("POKEMON CAPTURADO\n")
 					enviaMensaje(conn,pack('B',ENVIO_POKEMON))
 					msg_recibido = conn.recv(2)
 				#si no hay exito en la captura
 				else:
+					print("FALLÓ :(\n")
 					intentos_restantes = intentos_restantes-1
 					pkg1 = pack('B',INTENTAR_CAPTURA)
 					pkg2 = pack('B',1)
@@ -96,6 +100,7 @@ def conexionConCliente(conn):
 			#si se recibe un mensaje de NO
 			else:
 				enviaMensaje(conn,pack('B',RECIBIDO))
+				print("RECIBIDO")
 				msg_recibido = conn.recv(2)
 
 		enviaMensaje(conn,pack('B',TERMINANDO_SESION))
@@ -114,8 +119,9 @@ print("Escuchando")
 
 while True:
 	conn, address = s.accept()
-	conn.settimeout(30)
+	conn.settimeout(60)
 	print("Conectado con:",address)
-	conexionConCliente(conn)
+	#se inicia un nuevo hilo con una nueva conexión con cliente
+	_thread.start_new_thread(conexionConCliente,(conn,))
 	#aquiiniciaria el nuevo hilo. Llamar funcion del nuevo hilo
 
