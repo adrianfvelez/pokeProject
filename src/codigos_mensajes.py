@@ -1,3 +1,7 @@
+"""
+Definición de los códigos de los mensajes.
+"""
+
 ENVIO_IP = 1
 ID_ENCONTRADO = 2
 LISTA_POKEMON = 3
@@ -15,4 +19,3 @@ TERMINANDO_SESION = 32
 ID_NO_ENCONTRADO = 40
 NO_MAS_INTENTOS = 41
 NO_MAS_CAPTURAS = 42
-

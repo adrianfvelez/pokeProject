@@ -1,8 +1,18 @@
+# -*- coding: utf-8 -*-
+"""
+En este módulo se maneja la creación de la base de datos y se implementan funciones para su fácil manejo.
+"""
+
 import sqlite3
 from sqlite3 import Error
 
-#Regresa la conexión a la base de datos
 def create_connection(db_file):
+    """
+    Crea una conexión con la base de datos de SQLite
+
+    :param db_file: nombre del archivo de la base de datos.
+    :return:        conexión con la base.
+    """
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -12,16 +22,28 @@ def create_connection(db_file):
 
     return conn
 
-
 def create_table(conn, create_table_sql):
+    """
+    Función para crear tablas en la base de datos.
+
+    :param conn: conexión
+    :param create_table_sql: sentencia de sql para crear una tabla
+    :return:      - - -
+    """
     try:
         c = conn.cursor()
         c.execute(create_table_sql)
     except Error as e:
         print(e)
 
-
 def sql_crear_usuario(conn, usr):
+    """
+    Función para insertar en la tabla usuario
+
+    :param conn: conexión
+    :param create_table_sql: tupla de datos a insertar
+    :return:      - - -
+    """
     sql = ''' INSERT INTO usuario(id,name)
               VALUES(?,?) '''
     cur = conn.cursor()
@@ -31,6 +53,13 @@ def sql_crear_usuario(conn, usr):
 
 
 def sql_crear_pokemon(conn, pokemon):
+    """
+    Función para insertar en la tabla pokemon
+
+    :param conn: conexión
+    :param create_table_sql: tupla de datos a insertar
+    :return:      - - -
+    """
     sql = ''' INSERT INTO pokemon(id,name)
               VALUES(?,?) '''
     cur = conn.cursor()
@@ -40,6 +69,13 @@ def sql_crear_pokemon(conn, pokemon):
 
 
 def sql_crear_atrapado(conn, atrapado):
+    """
+    Función para insertar en la tabla atrapado
+
+    :param conn: conexión
+    :param create_table_sql: tupla de datos a insertar
+    :return:      - - -
+    """
     try:
         sql = ''' INSERT INTO atrapado(id_usuario,id_pokemon) VALUES(?,?) '''
         cur = conn.cursor()
@@ -50,13 +86,29 @@ def sql_crear_atrapado(conn, atrapado):
         print("ya lo atrapó")
         return None
 
+
 def get_usuario_by_id(conn,id):
+    """
+    Función para buscar usuario por id en la base de datos.
+
+    :param conn: conexión
+    :param id: id del usuario a buscar
+    :return: tupla con datos del usuario
+    """
     cursorObj = conn.cursor()
     cursorObj.execute("SELECT * FROM usuario WHERE id='"+str(id)+"'")
     rows = cursorObj.fetchone()
     return rows
 
+
 def get_all_pokemones_from_usuario(conn,id):
+    """
+    Función para buscar todos los pokemon de un usuario
+
+    :param conn: conexión
+    :param id: id del usuario a buscar
+    :return: lista con tuplas de datos de los pokemones
+    """
     cursorObj = conn.cursor()
     cursorObj.execute("SELECT id FROM atrapado INNER JOIN pokemon ON atrapado.id_pokemon=pokemon.id WHERE atrapado.id_usuario='"+str(id)+"'")
     rows = cursorObj.fetchall()
@@ -85,7 +137,15 @@ tabla_atrapados = """CREATE TABLE IF NOT EXISTS atrapado(
                         UNIQUE (id_usuario, id_pokemon)
                     );"""
 
+
 def main():
+    """
+    Función pricipal del módulo que crea y pobla la base con pokemones y usuarios predeterminados.
+
+    :param conn: conexión
+    :param id: id del usuario a buscar
+    :return: tupla con datos del usuario
+    """
 
     # conexión db
     conn = create_connection(db_nombre)

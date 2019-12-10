@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module create_db</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>create_db</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/n-droid/Documents/7sem/redes/pokeProject/src/create_db.py">/home/n-droid/Documents/7sem/redes/pokeProject/src/create_db.py</a></font></td></tr></table>
+    <p><tt>En&nbsp;este&nbsp;módulo&nbsp;se&nbsp;maneja&nbsp;la&nbsp;creación&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;y&nbsp;se&nbsp;implementan&nbsp;funciones&nbsp;para&nbsp;su&nbsp;fácil&nbsp;manejo.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="sqlite3.html">sqlite3</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-create_connection"><strong>create_connection</strong></a>(db_file)</dt><dd><tt>Crea&nbsp;una&nbsp;conexión&nbsp;con&nbsp;la&nbsp;base&nbsp;de&nbsp;datos&nbsp;de&nbsp;SQLite<br>
+&nbsp;<br>
+:param&nbsp;db_file:&nbsp;nombre&nbsp;del&nbsp;archivo&nbsp;de&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;conexión&nbsp;con&nbsp;la&nbsp;base.</tt></dd></dl>
+ <dl><dt><a name="-create_table"><strong>create_table</strong></a>(conn, create_table_sql)</dt><dd><tt>Función&nbsp;para&nbsp;crear&nbsp;tablas&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;create_table_sql:&nbsp;sentencia&nbsp;de&nbsp;sql&nbsp;para&nbsp;crear&nbsp;una&nbsp;tabla<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+ <dl><dt><a name="-get_all_pokemones_from_usuario"><strong>get_all_pokemones_from_usuario</strong></a>(conn, id)</dt><dd><tt>Función&nbsp;para&nbsp;buscar&nbsp;todos&nbsp;los&nbsp;pokemon&nbsp;de&nbsp;un&nbsp;usuario<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;id:&nbsp;id&nbsp;del&nbsp;usuario&nbsp;a&nbsp;buscar<br>
+:return:&nbsp;lista&nbsp;con&nbsp;tuplas&nbsp;de&nbsp;datos&nbsp;de&nbsp;los&nbsp;pokemones</tt></dd></dl>
+ <dl><dt><a name="-get_usuario_by_id"><strong>get_usuario_by_id</strong></a>(conn, id)</dt><dd><tt>Función&nbsp;para&nbsp;buscar&nbsp;usuario&nbsp;por&nbsp;id&nbsp;en&nbsp;la&nbsp;base&nbsp;de&nbsp;datos.<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;id:&nbsp;id&nbsp;del&nbsp;usuario&nbsp;a&nbsp;buscar<br>
+:return:&nbsp;tupla&nbsp;con&nbsp;datos&nbsp;del&nbsp;usuario</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Función&nbsp;pricipal&nbsp;del&nbsp;módulo&nbsp;que&nbsp;crea&nbsp;y&nbsp;pobla&nbsp;la&nbsp;base&nbsp;con&nbsp;pokemones&nbsp;y&nbsp;usuarios&nbsp;predeterminados.<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;id:&nbsp;id&nbsp;del&nbsp;usuario&nbsp;a&nbsp;buscar<br>
+:return:&nbsp;tupla&nbsp;con&nbsp;datos&nbsp;del&nbsp;usuario</tt></dd></dl>
+ <dl><dt><a name="-sql_crear_atrapado"><strong>sql_crear_atrapado</strong></a>(conn, atrapado)</dt><dd><tt>Función&nbsp;para&nbsp;insertar&nbsp;en&nbsp;la&nbsp;tabla&nbsp;atrapado<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;create_table_sql:&nbsp;tupla&nbsp;de&nbsp;datos&nbsp;a&nbsp;insertar<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+ <dl><dt><a name="-sql_crear_pokemon"><strong>sql_crear_pokemon</strong></a>(conn, pokemon)</dt><dd><tt>Función&nbsp;para&nbsp;insertar&nbsp;en&nbsp;la&nbsp;tabla&nbsp;pokemon<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;create_table_sql:&nbsp;tupla&nbsp;de&nbsp;datos&nbsp;a&nbsp;insertar<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+ <dl><dt><a name="-sql_crear_usuario"><strong>sql_crear_usuario</strong></a>(conn, usr)</dt><dd><tt>Función&nbsp;para&nbsp;insertar&nbsp;en&nbsp;la&nbsp;tabla&nbsp;usuario<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;create_table_sql:&nbsp;tupla&nbsp;de&nbsp;datos&nbsp;a&nbsp;insertar<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>db_nombre</strong> = 'pokemon.db'<br>
+<strong>tabla_atrapados</strong> = 'CREATE TABLE IF NOT EXISTS atrapado(<font color="#c040c0">\n</font>           ...E (id_usuario, id_pokemon)<font color="#c040c0">\n</font>                    );'<br>
+<strong>tabla_pokemon</strong> = 'CREATE TABLE IF NOT EXISTS pokemon (<font color="#c040c0">\n</font>           ...            name text NOT NULL<font color="#c040c0">\n</font>                );'<br>
+<strong>tabla_usuario</strong> = ' CREATE TABLE IF NOT EXISTS usuario (<font color="#c040c0">\n</font>          ...       name text NOT NULL<font color="#c040c0">\n</font>                    ); '</td></tr></table>
+</body></html>

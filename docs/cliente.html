@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module cliente</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>cliente</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/n-droid/Documents/7sem/redes/pokeProject/src/cliente.py">/home/n-droid/Documents/7sem/redes/pokeProject/src/cliente.py</a></font></td></tr></table>
+    <p><tt>En&nbsp;este&nbsp;modulo&nbsp;se&nbsp;encuentra&nbsp;la&nbsp;implementación&nbsp;de&nbsp;la&nbsp;aplicación&nbsp;para&nbsp;el&nbsp;cliente&nbsp;del&nbsp;juego&nbsp;de&nbsp;Pokemón.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="socket.html">socket</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-capturar_pokemon"><strong>capturar_pokemon</strong></a>(s)</dt><dd><tt>Función&nbsp;que&nbsp;mantiene&nbsp;la&nbsp;conexión&nbsp;cuando&nbsp;se&nbsp;esta&nbsp;intentando&nbsp;capturar&nbsp;un&nbsp;pokémon<br>
+&nbsp;<br>
+:param&nbsp;s:&nbsp;socket<br>
+:return:&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+ <dl><dt><a name="-enviaMensaje"><strong>enviaMensaje</strong></a>(conn, msg)</dt><dd><tt>Envía&nbsp;un&nbsp;mensaje&nbsp;msg&nbsp;a&nbsp;través&nbsp;de&nbsp;la&nbsp;conexión&nbsp;conn<br>
+&nbsp;<br>
+:param&nbsp;conn:&nbsp;conexión<br>
+:param&nbsp;msg:&nbsp;&nbsp;mensaje<br>
+:return:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;-&nbsp;-</tt></dd></dl>
+ <dl><dt><a name="-pack"><strong>pack</strong></a>(...)</dt><dd><tt><a href="#-pack">pack</a>(format,&nbsp;v1,&nbsp;v2,&nbsp;...)&nbsp;-&gt;&nbsp;bytes<br>
+&nbsp;<br>
+Return&nbsp;a&nbsp;bytes&nbsp;object&nbsp;containing&nbsp;the&nbsp;values&nbsp;v1,&nbsp;v2,&nbsp;...&nbsp;packed&nbsp;according<br>
+to&nbsp;the&nbsp;format&nbsp;string.&nbsp;&nbsp;See&nbsp;help(struct)&nbsp;for&nbsp;more&nbsp;on&nbsp;format&nbsp;strings.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>CAPTURAR_POKEMON</strong> = 20<br>
+<strong>CONSULTA_POKEMON</strong> = 6<br>
+<strong>ENVIO_IP</strong> = 1<br>
+<strong>ENVIO_POKEMON</strong> = 22<br>
+<strong>ID_ENCONTRADO</strong> = 2<br>
+<strong>ID_NO_ENCONTRADO</strong> = 40<br>
+<strong>INTENTAR_CAPTURA</strong> = 21<br>
+<strong>LISTA_POKEMON</strong> = 3<br>
+<strong>NO</strong> = 31<br>
+<strong>NO_MAS_CAPTURAS</strong> = 42<br>
+<strong>NO_MAS_INTENTOS</strong> = 41<br>
+<strong>POKEMON_REPETIDO</strong> = 4<br>
+<strong>RECIBIDO</strong> = 7<br>
+<strong>SALIR</strong> = 5<br>
+<strong>SI</strong> = 30<br>
+<strong>SOLICITA_CAPTURA</strong> = 10<br>
+<strong>TERMINANDO_SESION</strong> = 32<br>
+<strong>host</strong> = 'localhost.localdomain'<br>
+<strong>id_usuario</strong> = 1<br>
+<strong>msg_code_recibido</strong> = 2<br>
+<strong>msg_recibido</strong> = b' '<br>
+<strong>nombres_pokemon</strong> = ['pikachu', 'raichu', 'squirtle', 'warturtle', 'pidgey', 'pidgeotto', 'charmander', 'charmeleon', 'bulbasaur', 'ivysaur']<br>
+<strong>pkg1</strong> = b'\x01'<br>
+<strong>pkg2</strong> = b'\x01'<br>
+<strong>port</strong> = 9999<br>
+<strong>respuesta</strong> = 0<br>
+<strong>s</strong> = &lt;socket.socket [closed] fd=-1, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0&gt;<br>
+<strong>tipo_mensaje</strong> = 32</td></tr></table>
+</body></html>

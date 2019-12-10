@@ -1,5 +1,7 @@
-#Código para el servidor
-
+# -*- coding: utf-8 -*-
+"""
+En este modulo se encuentra la implementación de la aplicación para el servidor del juego de Pokemón.
+"""
 import socket
 from codigos_mensajes import *
 from struct import pack
@@ -9,9 +11,22 @@ import _thread
 from create_db import *
 
 def enviaMensaje(conn,msg):
+	"""
+	Envía un mensaje msg a través de la conexión conn
+
+	:param conn: conexión
+	:param msg:  mensaje
+	:return:      - - -
+	"""
 	conn.sendall(msg)
 
 def conexionConCliente(conn):
+	"""
+	Función que se usa en un thread para atender las conexiones de los clientes. En esta se implementa todo el flujo para el servidor.
+
+	:param conn: conexión
+	:return:      - - -
+	"""
 	try:
 		pokemones = [0,1,2,3,4,5,6,7,8,9]
 		nombres_pokemon = ['pikachu','raichu','squirtle','warturtle','pidgey','pidgeotto','charmander','charmeleon','bulbasaur','ivysaur']
@@ -51,7 +66,7 @@ def conexionConCliente(conn):
 		msg_recibido = conn.recv(2)
 		repetido = False #bandera para saber si el usuario ya tiene el pokémon
 		inicio_captura = False #bandera para saber si se comenzará a capturar un pokémon
-		intentos_restantes = 0 #numero de intentos que quedan 
+		intentos_restantes = 0 #numero de intentos que quedan
 		id_pokemon = 10
 		while msg_recibido[0] != SALIR:
 			#si se solicita una consulta de pokemon
@@ -165,4 +180,3 @@ while True:
 	#se inicia un nuevo hilo con una nueva conexión con cliente
 	_thread.start_new_thread(conexionConCliente,(conn,))
 	#aquiiniciaria el nuevo hilo. Llamar funcion del nuevo hilo
-
